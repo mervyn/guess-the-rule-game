@@ -1,0 +1,113 @@
+    <h2>Guess The Rule</h2>
+    <div>
+        <p>
+            <div class="row">
+                <div class="col-xs-2">
+                    <button type="button" class="form-control btn-success" ng-cloak>{{vm.init_one}}</button>
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" class="form-control btn-success" ng-cloak>{{vm.init_two}}</button>
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" class="form-control btn-success" ng-cloak>{{vm.init_three}}</button>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead">Obeys the rule</p>
+                </div>
+            </div>
+        </p>
+        <p>
+            <form ng-submit="vm.check(vm.one, vm.two, vm.three)">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <input type="number" ng-model="vm.one" class="form-control text-center" required focus-me="vm.focusMe" ng-disabled="vm.showOptions === 'yes'">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="number" ng-model="vm.two" class="form-control text-center" required ng-disabled="vm.showOptions === 'yes'">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="number" ng-model="vm.three" class="form-control text-center" required ng-disabled="vm.showOptions === 'yes'">
+                    </div>
+                    <div class="col-xs-6">
+                        <div>
+                            <button type="submit" class="btn btn-primary" ng-cloak>{{vm.rows.length === 0?'Check your guess':'Guess again'}}</button>
+                            <button type="button" class="btn btn-default" ng-click="vm.reset()">Reset Game</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </p>
+        <div class="form-group" ng-if="vm.rows.length > 0" ng-cloak>
+            <label>
+                Are you ready to guess the rule?
+            </label>
+            <div>
+                <label class="radio-inline">
+                    <input type="radio" value="yes" ng-model="vm.showOptions"> Yes
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" value="no" ng-change="vm.hideOptions()" ng-model="vm.showOptions"> No
+                </label>
+            </div>
+        </div>
+        <div ng-if="vm.showOptions === 'yes'" ng-cloak>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form>
+                        <label>
+                            Guess the rule(s). Select all that applies
+                        </label>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-change="vm.check_timesTwo()" ng-true-value="1" ng-false-value="0" ng-model="vm.options.multiplesOfTwo"> Multiply the previous number by 2
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-change="vm.check_asc()" ng-true-value="1" ng-false-value="0" ng-model="vm.options.ascending"> Numbers are in ascending order
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-change="vm.check_desc()" ng-true-value="1" ng-false-value="0" ng-model="vm.options.descending"> Numbers are in descending order
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-change="vm.check_even()" ng-true-value="1" ng-false-value="0" ng-model="vm.options.even"> Numbers are even
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-change="vm.check_odd()" ng-true-value="1" ng-false-value="0" ng-model="vm.options.odd"> Numbers are odd
+                            </label>
+                        </div>
+                        <div class="alert alert-info alert-dismissible" role="alert" ng-if="vm.showAlert">
+                            {{vm.alertMsg}}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="vm.showAlert=!vm.showAlert">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <button type="button" class="btn btn-primary" ng-click="vm.answer()">Submit answer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-repeat="row in vm.rows">
+            <p>
+                <div class="col-xs-2">
+                    <button type="button" class="form-control" ng-class="row.correct?'btn-success':'btn-danger'" ng-cloak>{{row.one}}</button>
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" class="form-control" ng-class="row.correct?'btn-success':'btn-danger'" ng-cloak>{{row.two}}</button>
+                </div>
+                <div class="col-xs-2">
+                    <button type="button" class="form-control" ng-class="row.correct?'btn-success':'btn-danger'" ng-cloak>{{row.three}}</button>
+                </div>
+                <div class="col-xs-6">
+                    <span class="glyphicon btn-lg pad-top-bottom-5" ng-class="row.correct?'glyphicon-ok text-success':'glyphicon-remove text-danger'"></span>
+                </div>
+            </p>
+        </div>
+    </div>
+</div>
